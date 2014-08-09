@@ -1,0 +1,30 @@
+///////////////////////////////////////////////////////////
+/// Default button
+////////////////////////////////////////////////////////////
+.btn {
+  border: medium none;
+  cursor: pointer;
+  padding: 5px;
+  display: inline-block;
+  font-weight: bold;
+  outline: medium none;
+  position: relative;
+  font-size: $btn-default-font-size;
+  white-space: nowrap;
+}
+
+///////////////////////////////////////////////////////////
+/// Primary button
+////////////////////////////////////////////////////////////
+.btn-default {
+  box-shadow: 0px 6px darken($btn-default-bg, 10%);
+  background-color: $btn-default-bg;
+  padding: 25px 60px;
+  color: $text-color-inverse;
+  border-radius: 0px 0px 5px 5px;
+  text-transform: uppercase;
+}
+.btn-default:hover {
+  box-shadow: 0 4px darken($btn-default-bg, 10%);
+  top: 2px;
+}

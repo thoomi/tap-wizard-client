@@ -1,0 +1,14 @@
+<div class="creategame table">
+  <div class="hostgame table-cell center">
+      <h2>Game ID: {{ game.id }}</h2>
+      <button ng-click="prepareGameForPlay()" class="btn" ng-disabled="isStartDisabled" ng-model="isStartDisabled">{{ game.play | uppercase }}</button>
+  </div>
+
+  <div class="table-cell center left-padding">
+      <p class="bold text-left">{{ game.wait }}</p>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="player in game.players">{{ player.playerName }}</li>
+        <li class="list-group-item free-slot" ng-repeat="i in range(6 - game.players.length) track by $index">Player {{ ($index + 1) + game.players.length }}</li>
+      </ul>
+  </div>
+</div>

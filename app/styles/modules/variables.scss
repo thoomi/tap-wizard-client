@@ -1,0 +1,53 @@
+///////////////////////////////////////////////////////////
+/// Colors
+////////////////////////////////////////////////////////////
+$brand-primary:    #F06060;
+$brand-attention:  #0E83CD;
+$brand-success:    #63cbaf;
+$brand-info:       #ff6da7;
+$brand-action:     #ffcb00;
+$brand-hint:       #cba57f;
+
+$gray:             #d0d2d3;
+$gray-light:       #f1f1f1;
+$gray-dark:        #a6a8ab;
+
+///////////////////////////////////////////////////////////
+/// Scaffolding
+////////////////////////////////////////////////////////////
+$body-bg:             #ffffff;
+$text-color:          #414042;
+$text-color-inverse:  #ffffff;
+$link-color:          $brand-primary;
+$link-hover-color:    $link-color;
+
+
+///////////////////////////////////////////////////////////
+/// Typography
+////////////////////////////////////////////////////////////
+$font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial sans-serif;
+$font-family-base:        $font-family-sans-serif;
+
+$font-size-base:          12px;
+
+$font-size-h1:            40px;
+$font-size-h2:            36px;
+$font-size-h3:            24px;
+$font-size-h4:            18px;
+
+$line-height-base:        1;
+
+
+///////////////////////////////////////////////////////////
+/// Buttons
+////////////////////////////////////////////////////////////
+$btn-default-color:               $brand-primary;
+$btn-default-bg:                  $body-bg;
+$btn-default-border:              $gray;
+$btn-default-font-size:           26px;
+$btn-default-padding-vertical:    5px;
+$btn-default-padding-horizontal:  5px;
+
+$btn-default-bg:    #9E54BD;
+$btn-new-game-bg:   #BA3D3D;
+$btn-join-game-bg:  #115EAD;
