@@ -9,7 +9,8 @@ angular.module('tapWizardClientApp')
       templateUrl: '../../views/playingcard.html',
       restrict: 'E',
       scope: {
-        card: '=info',
+        suit: '=suit',
+        value: '=value',
         throwCard: '&callbackFn'
       },
       link: function() {

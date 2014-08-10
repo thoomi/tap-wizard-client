@@ -10,12 +10,12 @@
   <div class="cards-panel-gametable table-cell center-center">
 
     <div class="trumpcard-container">
-      <tb-playing-card info="trumpCard"></tb-playing-card>
+      <playing-card suit="data.trumpCard.suit" value="data.trumpCard.value"></playing-card>
     </div>
 
     <ul class="playing-card-stack">
       <li ng-repeat="card in data.cards track by $index">
-        <tb-playing-card info="card"></tb-playing-card>
+        <playing-card suit="card.suit" value="card.value"></playing-card>
       </li>
     </ul>
 

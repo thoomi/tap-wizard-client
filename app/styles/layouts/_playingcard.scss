@@ -1,0 +1,68 @@
+////////////////////////////////////////////////////////////////////////////////
+/// Playing card
+////////////////////////////////////////////////////////////////////////////////
+$playing-card-min-width:      80px;
+$playing-card-min-height:     80px;
+
+$playing-card-bg:             #555555;
+$playing-card-border-color:   #000000;
+$playing-card-border-radius:  8px;
+$playing-card-border-width:   1px;
+
+$playing-card-suit-red:      #FF0000;
+$playing-card-suit-green:    #00FF00;  
+$playing-card-suit-blue:     #0000FF;
+$playing-card-suit-yellow:   #00FFFF;
+$playing-card-suit-wizard:   #FFFFFF;
+$playing-card-suit-fool:     #FFFFFF;
+
+
+.playing-card {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: $playing-card-bg;
+  color: $text-color;
+  border: $playing-card-border-width solid $playing-card-border-color;
+  border-radius: $playing-card-border-radius;
+  cursor: pointer;
+  min-width: $playing-card-min-width;
+  min-height: $playing-card-min-height;
+
+  &.red {
+  	color: $playing-card-suit-red;
+  }
+  &.green {
+  	color: $playing-card-suit-green;
+  }
+  &.blue {
+  	color: $playing-card-suit-blue;
+  }
+  &.yellow {
+  	color: $playing-card-suit-yellow;
+  }
+  &.wizard {
+  	color: $playing-card-suit-wizard;
+  }
+  &.fool {
+  	color: $playing-card-suit-fool;
+  }
+}
+.playing-card .corner {
+  position: absolute;
+  padding: 8px;
+  font-size: $font-size-h3;
+  font-weight: bold;
+}
+.playing-card .top {
+  top: 0;
+}
+.playing-card .bottom {
+  bottom: 0;
+}
+.playing-card .left {
+  left: 0;
+}
+.playing-card .right {
+  right: 0;
+}

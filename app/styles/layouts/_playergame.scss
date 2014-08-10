@@ -1,0 +1,103 @@
+////////////////////////////////////////////////////////////////////////////////
+/// The notification panel
+////////////////////////////////////////////////////////////////////////////////
+.notification-panel {
+  width: 100%;
+  background-color: $brand-info;
+  height: 10%;
+  color: $gray;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// Playergame styles
+////////////////////////////////////////////////////////////////////////////////
+.playergame {
+	
+	.playing-card-stack {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	&.cards-panel {
+	  width: 100%;
+	  background-color: #0E83CD;
+	  height: 60%;
+	  position: relative;
+	  table-layout: fixed;
+	}
+	&.cards-panel:before {
+	  left: 0;
+	  top: 50%;
+	  border: solid transparent;
+	  content: " ";
+	  height: 0;
+	  width: 0;
+	  position: absolute;
+	  pointer-events: none;
+	  border-top: 12px solid transparent;
+	  border-bottom: 12px solid transparent;
+	  border-right:12px solid #004D9C;
+	  margin-top: -12px;
+	}
+
+	&.cards-panel:after {
+	  right: 0;
+	  top: 50%;
+	  border: solid transparent;
+	  content: " ";
+	  position: absolute;
+	  pointer-events: none;
+	  width: 0;
+	  height: 0;
+	  border-top: 12px solid transparent;
+	  border-bottom: 12px solid transparent;
+	  border-left: 12px solid #004D9C;
+	  margin-top: -12px;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// Guess panel
+////////////////////////////////////////////////////////////////////////////////
+$guess-panel-border-color: $gray-light;
+$guess-panel-bg:           #333940;
+$guess-panel-color:        $text-color-inverse;
+
+$guess-panel-disabled-bg:    $gray;
+$guess-panel-disabled-color: $gray-dark;
+
+.guess-panel {
+  width: 100%;
+  height: 30%;
+}
+
+.guess-panel .button-wrapper {
+  height: 100%;
+}
+
+.guess-panel button {
+  width: 9%;
+  height: 50%;
+  border: 1px solid $guess-panel-border-color;
+  background-color: $guess-panel-bg;
+  color: $guess-panel-color;
+}
+
+.guess-panel button + button {
+  border-left: none;
+  border-bottom: none;
+}
+
+.guess-panel button:disabled {
+  background-color: $guess-panel-disabled-bg;
+  color: $guess-panel-disabled-color;
+  cursor: default;
+}
+
+.guess-panel button:first-of-type {
+  height: 100%;
+  float: left;
+  width: 10%;
+}

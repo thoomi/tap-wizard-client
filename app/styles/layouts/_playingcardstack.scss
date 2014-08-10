@@ -1,0 +1,40 @@
+////////////////////////////////////////////////////////////////////////////////
+/// Playing card stack for both game table and player view
+////////////////////////////////////////////////////////////////////////////////
+$pcs-border-color:  #004D9C;
+$pcs-border-width:  3px;
+$pcs-border-radius: 5px;
+
+$pcs-card-width:    80px;
+$pcs-card-height:   90%;
+
+
+.playing-card-stack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: scroll;
+  white-space: nowrap;
+  height: 100%;
+  width: 100%;
+  border-left: $pcs-border-width solid $pcs-border-color;
+  border-right: $pcs-border-width solid $pcs-border-color;
+  border-radius: $pcs-border-radius;
+  position: relative;
+}
+.playing-card-stack li {
+  position: relative;
+  display: inline-block;
+  margin: 5px 3px 3px 0;
+  width: $pcs-card-width;
+  height: $pcs-card-height;
+  margin-left: -30px;
+  z-index: 1;
+}
+
+.playing-card-stack li:last-child {
+  margin-right: 0;
+}
+.playing-card-stack li:first-child {
+  margin-left: 0;
+}

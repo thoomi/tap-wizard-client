@@ -1,1 +1,15 @@
-<p>This is the playergame view.</p>
+<div class="notification-panel table"><p class="table-cell center-center">{{ data.notification }}</p></div>
+
+<div class="playergame cards-panel" ng-disabled="isThrowCardsDisabled" ng-model="isThrowCardsDisabled">
+  <ul class="playing-card-stack" >
+    <li ng-repeat="card in data.cards track by $index">
+      <playing-card suit="card.suit" value="card.value" callback-fn="throwCard(card)"></playing-card>
+    </li>
+  </ul>
+</div>
+
+<div class="guess-panel">
+  <div class="button-wrapper">
+    <button ng-repeat="i in [21]|makeRange track by $index" ng-click="guessNumberOfTricks($index)" ng-disabled="data.currentRound < $index || isGuessTricksDisabled" ng-model="isGuessTricksDisabled">{{ $index }}</button>
+  </div>
+</div>

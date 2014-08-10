@@ -43,6 +43,7 @@ $score-panel-width:   100% - $gametable-width;
 ////////////////////////////////////////////////////////////////////////////////
 .cards-panel {
 	height: $cards-panel-height;
+	table-layout: fixed;
 }
 
 .cards-panel-gametable {
@@ -50,6 +51,33 @@ $score-panel-width:   100% - $gametable-width;
 	background-color: $brand-primary;
 	position: relative;
 	padding: 10px;
+
+	.playing-card-stack {
+		height: 45%;
+		text-align: left;
+
+		li {
+			margin-left: 0;
+		}
+
+		.playing-card {
+			min-height: 100px;
+		}
+	}
+}
+
+.trumpcard-container {
+	width: 120px;
+	height: 70px;
+	top: 10px;
+	left: 50%;
+	margin-left: -60px;
+	position: absolute;
+	text-align: left;
+	.playing-card {
+		min-height: 70px;
+		min-width: 120px;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
