@@ -1,1 +1,56 @@
-<p>This is the gametable view.</p>
+<div class="info-panel table full-width">
+  <div class="table-cell vertical-center text-left">
+  	Game ID: <span class="highlight">{{ data.gameRoomId }}</span> 
+  	Round: <span class="highlight">{{ data.currentRound }} / {{ data.maxRounds }}</span>
+  	Trickwinner: <span class="highlight">{{ data.trickwinner }}</span></div>
+</div>
+
+<!-- Implement a card panel directive -->
+<div class="cards-panel table full-width">
+  <div class="cards-panel-gametable table-cell center-center">
+
+    <div class="trumpcard-container">
+      <tb-playing-card info="trumpCard"></tb-playing-card>
+    </div>
+
+    <ul class="playing-card-stack">
+      <li ng-repeat="card in data.cards track by $index">
+        <tb-playing-card info="card"></tb-playing-card>
+      </li>
+    </ul>
+
+    <div class="start-btn-wrapper">
+      <button ng-click="startRound()" ng-disabled="isStartNextRoundDisabled" ng-model="isStartNextRoundDisabled" class="btn btn-primary">Start Round {{ data.currentRound }}</button>
+    </div>
+  </div>
+	
+
+  <!-- Implement a score board directive -->
+  <div class="scores-panel table-cell text-center">
+    <table class="score-table">
+      <thead>
+        <tr>
+          <td class="round in-use">#</td>
+          <td ng-repeat="player in data.players track by $index" class="in-use">{{ player.playerName }}</td>
+          <td ng-repeat="i in [6 - data.players.length]|makeRange track by $index" class="unused">P{{ ($index + 1) + data.players.length }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="i in [data.currentRound]|makeRange track by $index">
+          <td class="round">{{ $index + 1 }}</td>
+          <td ng-repeat="player in data.players track by $index" class="in-use score-set">
+            <div class="data.scores table full-width full-height">
+              <div class="guessedNumber table-cell center-center">{{ data.scores[$parent.$index + 1][player.playerId].guessedTricks }}</div>
+              <div class="score table-cell center-center">{{ data.scores[$parent.$index + 1][player.playerId].score }}</div>
+            </div>
+          </td>
+          <td ng-repeat="i in [6 - data.players.length]|makeRange track by $index" class="unused"></td>
+        </tr>
+        <tr ng-repeat="i in [20 - round.current]|makeRange track by $index">
+          <td class="round">{{ $index + 1 + data.currentRound }}</td>
+          <td ng-repeat="j in [6]|makeRange track by $index" class="unused" ng-hide="($parent.$index + 1 + data.currentRound) > (60 / ($index + 1))"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

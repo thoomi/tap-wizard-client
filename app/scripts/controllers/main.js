@@ -15,25 +15,39 @@ angular.module('tapWizardClientApp')
 
     $scope.isNewGameDisabled = false;
 
-    // -----------------------------------------------------------------------------
-    // Setup the socket event listeners.
-    // -----------------------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \fn CONNECT
+    ///
+    /// \brief Fired after a successfull socket connection to the server 
+    ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.CONNECT, function() {
       console.log('Websocket connected.');
     });
 
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \fn DISCONNECT
+    ///
+    /// \brief Fired if the connection to the server is lost
+    ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.DISCONNECT, function() {
       console.log('Websocket disconnected.');
     });
 
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \fn NEW_GAME_CREATED
+    ///
+    /// \brief Fired if a new game has been successfully created
+    ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.NEW_GAME_CREATED, function(_data) {
       gamedata.gameRoomId = _data.gameRoomId;
       $location.path('gameroomlobby');
     });
 
-    // -----------------------------------------------------------------------------
-    // This function gets called if the client clicks the NEW GAME button.
-    // -----------------------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \fn createNewGameRoom()
+    ///
+    /// \brief Notifies the server that the user wants to create a new game room.
+    ////////////////////////////////////////////////////////////////////////////////
     $scope.createNewGameRoom = function() {
     	$scope.isNewGameDisabled = true;
       $scope.data.createButtonText = 'Creating..';

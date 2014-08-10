@@ -1,0 +1,110 @@
+////////////////////////////////////////////////////////////////////////////////
+/// Gametable specific variables
+////////////////////////////////////////////////////////////////////////////////
+$info-panel-height:   12%;
+$cards-panel-height:  100% - $info-panel-height;
+
+$gametable-width:     65%;
+$score-panel-width:   100% - $gametable-width;
+
+////////////////////////////////////////////////////////////////////////////////
+/// The game information panel
+////////////////////////////////////////////////////////////////////////////////
+.info-panel {
+	background-color: $brand-info;
+	color: $gray;
+	height: $info-panel-height;
+	font-size: $font-size-base + 2;
+	text-align: left;
+	
+	.table-cell {
+		padding-left: 15px;
+	}
+
+	.highlight {
+		padding-right: 40px;
+	}
+}
+
+.start-btn-wrapper {
+	position: absolute;
+	bottom: 10px;
+	left: 50%;
+	margin-left: -100px;
+
+	.btn-primary {
+		padding: 15px;
+	}
+	
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// The cards panel
+////////////////////////////////////////////////////////////////////////////////
+.cards-panel {
+	height: $cards-panel-height;
+}
+
+.cards-panel-gametable {
+	width: $gametable-width;
+	background-color: $brand-primary;
+	position: relative;
+	padding: 10px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// The scores panel
+////////////////////////////////////////////////////////////////////////////////
+.scores-panel {
+	width: $score-panel-width;
+	background-color: $brand-info;
+	padding: 10px;
+	color: $gray-light;
+	font-size: $font-size-base;
+	padding-top: 0;
+}
+
+.score-table {
+	width: 100%;
+
+	thead {
+		font-weight: bold;
+
+		.in-use {
+			border-right: 2px solid $gray;
+ 			border-bottom: 2px solid $gray;
+		}
+	}
+
+	.round {
+		font-weight: bold;
+		border-right: 2px solid $gray;
+	}
+
+	.in-use {
+		border-right: 1px solid $gray;
+		border-bottom: 1px solid $gray;
+	}
+
+	.unused {
+		border-right: 1px solid rgba($gray-dark, 0.4);
+		border-bottom: 1px solid rgba($gray-dark, 0.4);
+		color: $gray;
+		opacity: 0.2;
+	}
+
+	.score-set {
+		border-right: 2px solid $gray;
+	}
+
+	.guessedNumber {
+		width: 30%;
+		border-right: 1px solid $gray;
+		color: #C7CED6;
+	}
+
+	.score {
+		width: 70%;
+		color: #FCD04B;
+	}
+}

@@ -28,6 +28,10 @@
   display: table-cell;
 }
 
+.vertical-center {
+  vertical-align: middle;
+}
+
 .center-center {
   vertical-align:middle;
   text-align: center;
@@ -61,5 +65,10 @@
 }
 
 .text-bold {
+  font-weight: bold;
+}
+
+.highlight {
+  color: $brand-hint;
   font-weight: bold;
 }

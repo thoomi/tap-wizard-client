@@ -14,12 +14,14 @@ angular.module('tapWizardClientApp')
     var players    = [];
     var maxRounds  = 0;
     var playerName = 'Player';
+    var playerId   = 0;
 
     return {
       gameRoomId      : gameRoomId,
       players         : players,
       maxRounds       : maxRounds,
       numberOfPlayers : players.length,
-      playerName      : playerName
+      playerName      : playerName,
+      playerId        : playerId
     };
   });

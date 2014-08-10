@@ -66,7 +66,7 @@ angular.module('tapWizardClientApp')
                     PLAYER_HAS_WON_TRICK:   'player_has_won_trick',   // Fired to notify the players that a trick turn is over
                     ROUND_IS_OVER:          'round_is_over',          // Fired when a round has ended
                     GAME_IS_OVER:           'game_is_over',           // Fired when the game ended
-                    ERROR:                  'error'                   // Fired upn an error
+                    ERROR:                  'custom_error'            // Fired upn an error
                 },
                 out: {
                     RECONNECT_TO_GAME: 'reconnect_to_game',
