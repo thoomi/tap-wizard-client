@@ -26,9 +26,9 @@ angular
         templateUrl: 'views/joingame.html',
         controller: 'JoingameCtrl'
       })
-      .when('/creategame', {
-        templateUrl: 'views/creategame.html',
-        controller: 'CreategameCtrl'
+      .when('/gameroomlobby', {
+        templateUrl: 'views/gameroomlobby.html',
+        controller: 'GameroomlobbyCtrl'
       })
       .when('/playergame', {
         templateUrl: 'views/playergame.html',

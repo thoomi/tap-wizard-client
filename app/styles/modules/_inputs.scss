@@ -1,0 +1,15 @@
+///////////////////////////////////////////////////////////
+/// Standart input fields
+////////////////////////////////////////////////////////////
+.input-control {
+	padding-bottom: 10px;
+}
+
+input {
+	border-radius: $input-border-radius;
+	width: 100%;
+	max-width: $input-max-width;
+	height: $input-height;
+	font-size: $input-font-size;
+	text-align: center;
+}

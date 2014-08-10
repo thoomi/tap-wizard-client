@@ -35,6 +35,7 @@
 
 
     <!-- build:js(.) scripts/vendor.js -->
+    <script src="bower_components/socket.io-client/socket.io.js"></script>
     <!-- bower:js -->
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -43,7 +44,6 @@
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/socket.io-client/socket.io.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -52,10 +52,12 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/joingame.js"></script>
-        <script src="scripts/controllers/creategame.js"></script>
+        <script src="scripts/controllers/gameroomlobby.js"></script>
         <script src="scripts/controllers/playergame.js"></script>
         <script src="scripts/controllers/gametable.js"></script>
         <script src="scripts/services/socket.js"></script>
+        <script src="scripts/services/gamedata.js"></script>
+        <script src="scripts/filters/makerange.js"></script>
         <!-- endbuild -->
 </body>
 </html>

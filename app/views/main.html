@@ -1,11 +1,22 @@
 <div class="table full-width half-height section-new-game">
   <div class="table-cell center-center">
-    <a href="#/creategame" class="btn btn-default">{{ game.create }}</a>
+    <button class="btn btn-large btn-primary" 
+    		ng-click="createNewGameRoom()" 
+    		ng-disabled="isNewGameDisabled" 
+    		ng-model="isNewGameDisabled">{{ data.createButtonText }}
+	    <div class="spinner" ng-hide="!isNewGameDisabled">
+  			<div class="rect1"></div>
+  			<div class="rect2"></div>
+  			<div class="rect3"></div>
+  			<div class="rect4"></div>
+  			<div class="rect5"></div>
+		  </div>
+	</button>
   </div>
 </div>
 <div class="table full-width half-height section-join-game">
   <div class="table-cell center-center">
-    <a href="#/joingame" class="btn btn-default">{{ game.join }}</a>
+    <a href="#/joingame" class="btn btn-large btn-secondary">{{ data.joinButtonText }}</a>
   </div>
 </div>
 

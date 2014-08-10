@@ -17,8 +17,6 @@ angular.module('tapWizardClientApp')
     	timeout:              20000 // 20 sec
     });
 
-    io.reconnectionAttempts(5);
-
     return {
             on: function (eventName, callback) {
                 socket.on(eventName, function () {
@@ -44,14 +42,16 @@ angular.module('tapWizardClientApp')
             events: {
                 in: {
                     CONNECT:                'connect',                // Fired upon connecting
-                    DISCONNECT:             'disconnect'              // Fired upon a disconnection
-                    CONNECT_ERROR           'connect_error',          // Fired upon connection error
-                    RECONNECT               'reconnect',              // Fired upon a successful reconnection
-                    RECONNECT_ATTEMPT       'reconnect_attempt',      // Fired upon an attempt to reconnect
+                    DISCONNECT:             'disconnect',             // Fired upon a disconnection
+                    CONNECT_ERROR:          'connect_error',          // Fired upon connection error
+                    RECONNECT:              'reconnect',              // Fired upon a successful reconnection
+                    RECONNECT_ATTEMPT:      'reconnect_attempt',      // Fired upon an attempt to reconnect
                     RECONNECTING:           'reconnecting',           // Fired upon an attempt to reconnect
                     RECONNECT_ERROR:        'reconnect_error',        // Fired upon an reconnection attempt error
                     RECONNECT_FAILD:        'reconnect_faild',        // Fired when couldn't reconnect within 'reconnectionAttempts'
+                    NEW_GAME_CREATED:       'new_game_created',       // Fired when a new game has been created
                     PLAYER_JOINED_GAME:     'player_joined_game',     // Fired when a player joined the game room
+                    PLAYER_LEFT_GAME:       'player_left_game',       // Fired when a player left the game
                     NOT_ENOUGH_PLAYERS:     'not_enough_players',     // Fired if not enough players in the room to start the game
                     GAME_STARTS:            'game_starts',            // Fired upon game start
                     NEW_ROUND_STARTS:       'new_round_starts',       // Fired when a new round begins
@@ -65,7 +65,7 @@ angular.module('tapWizardClientApp')
                     PLAYER_HAS_THROWN_CARD: 'player_has_thrown_card', // Fired after a player successfully played a card
                     PLAYER_HAS_WON_TRICK:   'player_has_won_trick',   // Fired to notify the players that a trick turn is over
                     ROUND_IS_OVER:          'round_is_over',          // Fired when a round has ended
-                    GAME_IS_OVER:           'game_is_over'            // Fired when the game ended
+                    GAME_IS_OVER:           'game_is_over',           // Fired when the game ended
                     ERROR:                  'error'                   // Fired upn an error
                 },
                 out: {

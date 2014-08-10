@@ -1,0 +1,21 @@
+////////////////////////////////////////////////////////////////////////////////
+/// List group
+////////////////////////////////////////////////////////////////////////////////
+.list-group {
+	list-style: none;
+	text-align: left;
+	padding-left: 0;
+	padding-right: 10px
+}
+
+.list-group-item {
+	background-color: $brand-success;
+	border: 1px solid $gray;
+	padding: 5px 0 5px 10px;
+	font-weight: bold;
+	font-size: $font-size-base + 2;
+}
+
+.list-group-item + .list-group-item {
+	border-top: none;
+}
