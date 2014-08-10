@@ -26,7 +26,7 @@ angular.module('tapWizardClientApp')
     /// \brief Fired after a player threw a card. Adds the card to the local stack.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.PLAYER_HAS_THROWN_CARD, function(_data) {
-      $scope.cards.push(_data.card);
+      $scope.data.cards.push(_data.card);
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,8 @@ angular.module('tapWizardClientApp')
     /// \brief Fired after a new trump card has been chosen.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.NEW_TRUMP_CARD, function(_data) {
-      $scope.trumpCard = _data.card;
+        console.log(_data);
+      $scope.data.trumpCard = _data.card;
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -71,9 +72,10 @@ angular.module('tapWizardClientApp')
     socket.on(socket.events.in.ROUND_IS_OVER, function(_data) {
       $scope.data.trumpCard = {};
 
-      for (var indexOfPlayer = 0; indexOfPlayer < $scope.data.players.length; indexOfPlayer++) {
+      for (var indexOfPlayer = 0; indexOfPlayer < $scope.data.players.length; indexOfPlayer++) 
+      {
         var playerId     = $scope.data.players[indexOfPlayer].playerId;
-        var currentScore = $scope.data.players[indexOfPlayer].points;
+        var currentScore = $scope.data.players[indexOfPlayer].totalScore;
         var scoreToAdd   = _data.scores[playerId];
 
         $scope.data.scores[$scope.data.currentRound][playerId].score = currentScore + scoreToAdd;
@@ -81,7 +83,7 @@ angular.module('tapWizardClientApp')
       }
 
       $scope.data.currentRound++;
-      $scope.isStartRoundDisabled = false;
+      $scope.isStartNextRoundDisabled = false;
     });
 
     ////////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 <div class="playergame cards-panel" ng-disabled="isThrowCardsDisabled" ng-model="isThrowCardsDisabled">
   <ul class="playing-card-stack" >
     <li ng-repeat="card in data.cards track by $index">
-      <playing-card suit="card.suit" value="card.value" callback-fn="throwCard(card)"></playing-card>
+      <playing-card suit="card.suit" value="card.value" ng-click="throwCard(card)"></playing-card>
     </li>
   </ul>
 </div>

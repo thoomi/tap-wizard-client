@@ -21,6 +21,11 @@ angular.module('tapWizardClientApp')
     /// \brief Fired when a new player joind the game
     ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.PLAYER_JOINED_GAME, function(_data) {
+      // -----------------------------------------------------------------------------
+      // Initialize total score property on player object
+      // -----------------------------------------------------------------------------
+      _data.totalScore = 0;
+
       $scope.data.players.push(_data);
       gamedata.players.push(_data);
 

@@ -4,10 +4,10 @@
 /// PlayergameCtrl implements the logic for a player in the game
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('PlayergameCtrl', function ($scope, socket, gamedata) {
+  .controller('PlayergameCtrl', function ($scope, $log, socket, gamedata) {
     $scope.data = {
     	cards        : [],
-    	currentRound : 0,
+    	currentRound : 1,
     	notification : 'Waiting for the game start.',
     	isGameOver   : false,
     	winnerName   : ''
@@ -34,6 +34,7 @@ angular.module('tapWizardClientApp')
     /// the local card stack.
     //////////////////////////////////////////////////////////////////////////////// 
 	socket.on(socket.events.in.NEW_HAND_CARD, function(_data) {
+      $log.info(_data);
       $scope.data.cards.push(_data.card);
     });
 
@@ -67,7 +68,7 @@ angular.module('tapWizardClientApp')
     /// \brief Fired if a trick turn is over and a winner determined.
     ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.PLAYER_HAS_WON_TRICK, function(_data) {
-      $scope.playedCardThisTrick = false;
+      $scope.hasPlayedCardThisTrick = false;
 
       if (gamedata.playerId === _data.playerId)
       {
@@ -136,7 +137,7 @@ angular.module('tapWizardClientApp')
 	    // -----------------------------------------------------------------------------
         for (var indexOfCard = 0; indexOfCard < $scope.data.cards.length; indexOfCard++) 
         {
-            if($scope.cards[indexOfCard].suit === _card.suit && $scope.data.cards[indexOfCard].value === _card.value) 
+            if($scope.data.cards[indexOfCard].suit === _card.suit && $scope.data.cards[indexOfCard].value === _card.value) 
             {
                 $scope.data.cards.splice(indexOfCard, 1);
             }
@@ -159,7 +160,8 @@ angular.module('tapWizardClientApp')
     ////////////////////////////////////////////////////////////////////////////////    
     $scope.guessNumberOfTricks = function(_number) {
       var data = { 
-      	gameRoomId            : gamedata.gameRoomId, 
+      	gameRoomId            : gamedata.gameRoomId,
+        playerId              : gamedata.playerId,
       	numberOfGuessedTricks : _number 
       };
 
