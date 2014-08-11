@@ -10,11 +10,11 @@
 angular.module('tapWizardClientApp')
   .factory('gamedata', function () {
 
-    var gameRoomId = 0;
+    var gameRoomId = '';
     var players    = [];
     var maxRounds  = 0;
     var playerName = 'Player';
-    var playerId   = 0;
+    var playerId   = '';
 
     return {
       gameRoomId      : gameRoomId,

@@ -21,6 +21,7 @@ $pcs-card-height:   90%;
   border-right: $pcs-border-width solid $pcs-border-color;
   border-radius: $pcs-border-radius;
   position: relative;
+  min-height: 100px;
 }
 .playing-card-stack li {
   position: relative;

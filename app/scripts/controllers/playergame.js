@@ -4,7 +4,7 @@
 /// PlayergameCtrl implements the logic for a player in the game
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('PlayergameCtrl', function ($scope, $log, socket, gamedata) {
+  .controller('PlayergameCtrl', function ($scope, socket, gamedata) {
     $scope.data = {
     	cards        : [],
     	currentRound : 1,
@@ -34,7 +34,6 @@ angular.module('tapWizardClientApp')
     /// the local card stack.
     //////////////////////////////////////////////////////////////////////////////// 
 	socket.on(socket.events.in.NEW_HAND_CARD, function(_data) {
-      $log.info(_data);
       $scope.data.cards.push(_data.card);
     });
 

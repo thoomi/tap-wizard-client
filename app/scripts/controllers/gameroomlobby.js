@@ -4,7 +4,7 @@
 /// Create game module (This is kind of the lobby state)
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('GameroomlobbyCtrl', function ($scope, $location, socket, gamedata) {
+  .controller('GameroomlobbyCtrl', function ($scope, $location, $log, socket, gamedata) {
     $scope.data = {
       waitingText: 'Waiting for other players to join:',
       startGameText: 'Start',
@@ -44,22 +44,26 @@ angular.module('tapWizardClientApp')
     /// \brief Fired when a player left the game
     ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.PLAYER_LEFT_GAME, function(_data) {
+      
       // -----------------------------------------------------------------------------
       // Search for the player who left the game
       // -----------------------------------------------------------------------------
-      for (var indexOfPlayer = 0; indexOfPlayer < gamedata.$scope.data.players.length; indexOfPlayer++)
+      for (var indexOfPlayer = 0; indexOfPlayer < $scope.data.players.length; indexOfPlayer++)
       {
-        if (gamedata.players[indexOfPlayer].playerId === _data.playerId)
+        if ($scope.data.players[indexOfPlayer].playerId === _data.playerId)
         {
-          $scope.data.players.slice(indexOfPlayer, 1);
-          gamedata.players.slice(indexOfPlayer);
+          $log.info('Array: ' + $scope.data.players[indexOfPlayer].playerId);
+          $log.info('Data: ' + _data.playerId);
+
+          $scope.data.players.splice(indexOfPlayer, 1);
+          gamedata.players.splice(indexOfPlayer, 1);
         }
       }
 
       // -----------------------------------------------------------------------------
       // Check if there are now less than 3 players
       // -----------------------------------------------------------------------------
-      if (gamedata.$scope.data.players.length < 3)
+      if ($scope.data.players.length < 3)
       {
         $scope.isStartDisabled = true;
       }

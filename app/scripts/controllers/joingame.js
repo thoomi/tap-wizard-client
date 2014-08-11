@@ -11,6 +11,8 @@ angular.module('tapWizardClientApp')
     };
 
     $scope.isJoinGameButtonDisabled = false;
+    $scope.gameRoomId = '111';
+    $scope.playerName = 'tho';
 
     ////////////////////////////////////////////////////////////////////////////////
     /// \fn joinGame()

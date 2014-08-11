@@ -46,7 +46,7 @@
           </td>
           <td ng-repeat="i in [6 - data.players.length]|makeRange track by $index" class="unused"></td>
         </tr>
-        <tr ng-repeat="i in [20 - round.current]|makeRange track by $index">
+        <tr ng-repeat="i in [20 - data.currentRound]|makeRange track by $index">
           <td class="round">{{ $index + 1 + data.currentRound }}</td>
           <td ng-repeat="j in [6]|makeRange track by $index" class="unused" ng-hide="($parent.$index + 1 + data.currentRound) > (60 / ($index + 1))"></td>
         </tr>

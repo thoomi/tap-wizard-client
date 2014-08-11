@@ -4,7 +4,7 @@
 /// GameTableCtrl handles all logic like displaying cards and the score
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('GametableCtrl', function ($scope, $timeout, socket, gamedata) {
+  .controller('GametableCtrl', function ($scope, $timeout, $log, socket, gamedata) {
     $scope.data = {
     	gameRoomId   : gamedata.gameRoomId,
     	players      : gamedata.players,
@@ -35,7 +35,6 @@ angular.module('tapWizardClientApp')
     /// \brief Fired after a new trump card has been chosen.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.NEW_TRUMP_CARD, function(_data) {
-        console.log(_data);
       $scope.data.trumpCard = _data.card;
     });
 
@@ -72,14 +71,20 @@ angular.module('tapWizardClientApp')
     socket.on(socket.events.in.ROUND_IS_OVER, function(_data) {
       $scope.data.trumpCard = {};
 
+      $log.info(_data.scores);
+
       for (var indexOfPlayer = 0; indexOfPlayer < $scope.data.players.length; indexOfPlayer++) 
       {
         var playerId     = $scope.data.players[indexOfPlayer].playerId;
         var currentScore = $scope.data.players[indexOfPlayer].totalScore;
         var scoreToAdd   = _data.scores[playerId];
 
+        $log.info('PlayerId: ' + playerId);
+        $log.info('currentScore: ' + currentScore);
+        $log.info('scoreToAdd: ' + scoreToAdd);
+
         $scope.data.scores[$scope.data.currentRound][playerId].score = currentScore + scoreToAdd;
-        $scope.data.players[indexOfPlayer].points = currentScore + scoreToAdd;
+        $scope.data.players[indexOfPlayer].score = currentScore + scoreToAdd;
       }
 
       $scope.data.currentRound++;
