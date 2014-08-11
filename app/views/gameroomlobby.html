@@ -1,7 +1,18 @@
 <div class="section-game-lobby table full-width full-height">
   <div class="table-cell center-center">
       <h2>Game ID: {{ data.gameRoomId }}</h2>
-      <button ng-click="prepareGameForStart()" class="btn btn-large btn-primary" ng-disabled="isStartDisabled" ng-model="isStartDisabled">{{ data.startGameText | uppercase }}</button>
+      <button ng-click="prepareGameForStart()" 
+              class="btn btn-large btn-primary" 
+              ng-disabled="isStartDisabled" 
+              ng-model="isStartDisabled">{{ data.startGameText | uppercase }}
+          <div class="spinner" ng-hide="!isWaitingForGameStart">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+          </div>
+      </button>
   </div>
   
   <!-- Implement something like a lobby-list directive -->

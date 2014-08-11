@@ -4,16 +4,49 @@
 /// Create game module (This is kind of the lobby state)
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('GameroomlobbyCtrl', function ($scope, $location, $log, socket, gamedata) {
+  .controller('GameroomlobbyCtrl', function ($scope, $location, $log, $localStorage, socket, gamedata) {
+    // -----------------------------------------------------------------------------
+    // Initialize persistant storage
+    // -----------------------------------------------------------------------------
+    $scope.$storage = $localStorage;
+
+    // -----------------------------------------------------------------------------
+    // Define which objects should be stored persistent
+    // -----------------------------------------------------------------------------
+    $scope.$storage = $localStorage.$default({ players    : [] });
+    $scope.$storage = $localStorage.$default({ gameRoomId : gamedata.gameRoomId });
+
+
+    // -----------------------------------------------------------------------------
+    // Define ordinary data bindings for view
+    // -----------------------------------------------------------------------------
     $scope.data = {
       waitingText: 'Waiting for other players to join:',
       startGameText: 'Start',
-      players : [],
-      gameRoomId: gamedata.gameRoomId
+      players : $scope.$storage.players,
+      gameRoomId: $scope.$storage.gameRoomId
     };
 
-    $scope.isStartDisabled = true;
+    $scope.isStartDisabled       = true;
+    $scope.isWaitingForGameStart = false;
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \fn CONNECT
+    ///
+    /// \brief Fired if the browser reconnected to the socket
+    ////////////////////////////////////////////////////////////////////////////////
+    socket.on(socket.events.in.CONNECT, function() {
+      // -----------------------------------------------------------------------------
+      // Notify the server that we want to reconnect to an existing game
+      // -----------------------------------------------------------------------------
+      var data = {
+        gameRoomId: $scope.$storage.gameRoomId,
+        typeOfClient: 'game_table'
+      };
+      this.emit(socket.events.out.RECONNECT_TO_GAME, data);
+    });
+    
 
     ////////////////////////////////////////////////////////////////////////////////
     /// \fn PLAYER_JOINED_GAME
@@ -26,8 +59,7 @@ angular.module('tapWizardClientApp')
       // -----------------------------------------------------------------------------
       _data.totalScore = 0;
 
-      $scope.data.players.push(_data);
-      gamedata.players.push(_data);
+      $scope.$storage.players.push(_data);
 
       // -----------------------------------------------------------------------------
       // Enable start button if at least 3 players have joined the game
@@ -52,11 +84,7 @@ angular.module('tapWizardClientApp')
       {
         if ($scope.data.players[indexOfPlayer].playerId === _data.playerId)
         {
-          $log.info('Array: ' + $scope.data.players[indexOfPlayer].playerId);
-          $log.info('Data: ' + _data.playerId);
-
-          $scope.data.players.splice(indexOfPlayer, 1);
-          gamedata.players.splice(indexOfPlayer, 1);
+          $scope.$storage.players.splice(indexOfPlayer, 1);
         }
       }
 
@@ -75,8 +103,21 @@ angular.module('tapWizardClientApp')
     /// \brief Fired if enough players have joind and the start button has been hit
     ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.GAME_STARTS, function(_data) {
-      gamedata.maxRounds = _data.maxRounds;
+      $scope.$storage.maxRounds = _data.maxRounds;
       $location.path('gametable');
+    });
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \fn NOT_ENOUGH_PLAYERS
+    ///
+    /// \brief Fired if not enough players have joined
+    ////////////////////////////////////////////////////////////////////////////////
+    socket.on(socket.events.in.NOT_ENOUGH_PLAYERS, function() {
+      // -----------------------------------------------------------------------------
+      // Initialize total score property on player object
+      // -----------------------------------------------------------------------------
+      $log.info('Not enough players!');
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -87,9 +128,10 @@ angular.module('tapWizardClientApp')
     ////////////////////////////////////////////////////////////////////////////////
     $scope.prepareGameForStart = function() {
       $scope.isStartDisabled = true;
+      $scope.isWaitingForGameStart = true;
 
       var data = {
-        gameRoomId: gamedata.gameRoomId
+        gameRoomId: $scope.$storage.gameRoomId
       };
       socket.emit(socket.events.out.PREPARE_GAME, data);
     };

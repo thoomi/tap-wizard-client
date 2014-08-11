@@ -20,7 +20,6 @@ angular.module('tapWizardClientApp')
       gameRoomId      : gameRoomId,
       players         : players,
       maxRounds       : maxRounds,
-      numberOfPlayers : players.length,
       playerName      : playerName,
       playerId        : playerId
     };

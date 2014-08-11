@@ -4,18 +4,39 @@
 /// GameTableCtrl handles all logic like displaying cards and the score
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('GametableCtrl', function ($scope, $timeout, $log, socket, gamedata) {
+  .controller('GametableCtrl', function ($scope, $timeout, $log, $localStorage, socket, gamedata) {
+    // -----------------------------------------------------------------------------
+    // Initialize persistant storage
+    // -----------------------------------------------------------------------------
+    $scope.$storage = $localStorage;
+
+    // -----------------------------------------------------------------------------
+    // Define which objects should be stored persistent
+    // -----------------------------------------------------------------------------
+    /*$scope.$storage = $localStorage.$default({ players    : [] });*/                   // Exists from game room lobby
+    /*$scope.$storage = $localStorage.$default({ gameRoomId : gamedata.gameRoomId });*/  // Exists from game room lobby
+    /*$scope.$storage = $localStorage.$default({ maxRounds  : gamedata.maxRounds  });*/  // Exists from game room lobby
+    $scope.$storage = $localStorage.$default({ cards        : [] });
+    $scope.$storage = $localStorage.$default({ currentRound : 1  });
+    $scope.$storage = $localStorage.$default({ trickWinner  : '' });
+    $scope.$storage = $localStorage.$default({ trumpCard    : {} });
+    $scope.$storage = $localStorage.$default({ scores       : [] });
+    $scope.$storage = $localStorage.$default({ winnerName   : '' });
+
+    // -----------------------------------------------------------------------------
+    // Define ordinary data bindings for view
+    // -----------------------------------------------------------------------------
     $scope.data = {
-    	gameRoomId   : gamedata.gameRoomId,
-    	players      : gamedata.players,
-    	cards        : [],
-    	currentRound : 1,
-    	maxRounds    : gamedata.maxRounds,
-    	trickWinner  : '',
-    	trumpCard    : {},
-    	scores       : [], 
+    	gameRoomId   : $scope.$storage.gameRoomId,
+    	players      : $scope.$storage.players,
+    	cards        : $scope.$storage.cards,
+    	currentRound : $scope.$storage.currentRound,
+    	maxRounds    : $scope.$storage.maxRounds,
+    	trickWinner  : $scope.$storage.trickWinner,
+    	trumpCard    : $scope.$storage.trumpCard,
+    	scores       : $scope.$storage.scores, 
     	isGameOver   : false,
-    	winnerName   : ''
+    	winnerName   : $scope.$storage.winnerName
     };
 
     $scope.isStartNextRoundDisabled = false;
@@ -112,7 +133,7 @@ angular.module('tapWizardClientApp')
       $scope.data.trickwinner = '';
 
       var data = {
-        gameRoomId: gamedata.gameRoomId
+        gameRoomId: $scope.$storage.gameRoomId
       };
       socket.emit(socket.events.out.START_GAME_ROUND, data);
     };

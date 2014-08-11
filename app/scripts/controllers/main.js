@@ -7,7 +7,12 @@
 ///    2. Join an existing game room
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('MainCtrl', function ($scope, $location, socket, gamedata) {
+  .controller('MainCtrl', function ($scope, $location, $localStorage, socket, gamedata) {
+    // -----------------------------------------------------------------------------
+    // Clear localstorage from previous sessions and set up a fresh one
+    // -----------------------------------------------------------------------------
+    $localStorage.$reset();
+
     $scope.data = {
       createButtonText: 'new game',
       joinButtonText: 'join game'
