@@ -13,21 +13,19 @@ angular.module('tapWizardClientApp')
     // -----------------------------------------------------------------------------
     // Define which objects should be stored persistent
     // -----------------------------------------------------------------------------
-    $scope.$storage = $localStorage.$default({ players    : [] });
-    $scope.$storage = $localStorage.$default({ gameRoomId : gamedata.gameRoomId });
+    $scope.$storage = $localStorage.$default({ players         : [] });
+    $scope.$storage = $localStorage.$default({ gameRoomId      : gamedata.gameRoomId });
+    $scope.$storage = $localStorage.$default({ isStartDisabled : true });
 
 
     // -----------------------------------------------------------------------------
     // Define ordinary data bindings for view
     // -----------------------------------------------------------------------------
-    $scope.data = {
+    $scope.label = {
       waitingText: 'Waiting for other players to join:',
-      startGameText: 'Start',
-      players : $scope.$storage.players,
-      gameRoomId: $scope.$storage.gameRoomId
+      startGameText: 'Start'
     };
 
-    $scope.isStartDisabled       = true;
     $scope.isWaitingForGameStart = false;
 
 
@@ -64,9 +62,9 @@ angular.module('tapWizardClientApp')
       // -----------------------------------------------------------------------------
       // Enable start button if at least 3 players have joined the game
       // -----------------------------------------------------------------------------
-      if ($scope.data.players.length >= 3)
+      if ($scope.$storage.players.length >= 3)
       {
-        $scope.isStartDisabled = false;
+        $scope.$storage.isStartDisabled = false;
       }
     });
 
@@ -80,9 +78,9 @@ angular.module('tapWizardClientApp')
       // -----------------------------------------------------------------------------
       // Search for the player who left the game
       // -----------------------------------------------------------------------------
-      for (var indexOfPlayer = 0; indexOfPlayer < $scope.data.players.length; indexOfPlayer++)
+      for (var indexOfPlayer = 0; indexOfPlayer < $scope.$storage.players.length; indexOfPlayer++)
       {
-        if ($scope.data.players[indexOfPlayer].playerId === _data.playerId)
+        if ($scope.$storage.players[indexOfPlayer].playerId === _data.playerId)
         {
           $scope.$storage.players.splice(indexOfPlayer, 1);
         }
@@ -91,9 +89,9 @@ angular.module('tapWizardClientApp')
       // -----------------------------------------------------------------------------
       // Check if there are now less than 3 players
       // -----------------------------------------------------------------------------
-      if ($scope.data.players.length < 3)
+      if ($scope.$storage.players.length < 3)
       {
-        $scope.isStartDisabled = true;
+        $scope.$storage.isStartDisabled = true;
       }
     });
 
@@ -127,7 +125,7 @@ angular.module('tapWizardClientApp')
     /// that the users want to start the game.
     ////////////////////////////////////////////////////////////////////////////////
     $scope.prepareGameForStart = function() {
-      $scope.isStartDisabled = true;
+      $scope.$storage.isStartDisabled = true;
       $scope.isWaitingForGameStart = true;
 
       var data = {

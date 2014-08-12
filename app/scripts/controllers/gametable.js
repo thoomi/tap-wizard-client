@@ -4,7 +4,7 @@
 /// GameTableCtrl handles all logic like displaying cards and the score
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('GametableCtrl', function ($scope, $timeout, $log, $localStorage, socket, gamedata) {
+  .controller('GametableCtrl', function ($scope, $timeout, $log, $localStorage, socket) {
     // -----------------------------------------------------------------------------
     // Initialize persistant storage
     // -----------------------------------------------------------------------------
@@ -22,24 +22,27 @@ angular.module('tapWizardClientApp')
     $scope.$storage = $localStorage.$default({ trumpCard    : {} });
     $scope.$storage = $localStorage.$default({ scores       : [] });
     $scope.$storage = $localStorage.$default({ winnerName   : '' });
+    $scope.$storage = $localStorage.$default({ isStartNextRoundDisabled : false });
 
-    // -----------------------------------------------------------------------------
-    // Define ordinary data bindings for view
-    // -----------------------------------------------------------------------------
-    $scope.data = {
-    	gameRoomId   : $scope.$storage.gameRoomId,
-    	players      : $scope.$storage.players,
-    	cards        : $scope.$storage.cards,
-    	currentRound : $scope.$storage.currentRound,
-    	maxRounds    : $scope.$storage.maxRounds,
-    	trickWinner  : $scope.$storage.trickWinner,
-    	trumpCard    : $scope.$storage.trumpCard,
-    	scores       : $scope.$storage.scores, 
-    	isGameOver   : false,
-    	winnerName   : $scope.$storage.winnerName
-    };
 
     $scope.isStartNextRoundDisabled = false;
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \fn CONNECT
+    ///
+    /// \brief Fired after the disconnected socket has been reconencted
+    //////////////////////////////////////////////////////////////////////////////// 
+    socket.on(socket.events.in.CONNECT, function() {
+      // -----------------------------------------------------------------------------
+      // Notify the server that we want to reconnect to an existing game
+      // -----------------------------------------------------------------------------
+      var data = {
+        gameRoomId: $scope.$storage.gameRoomId,
+        typeOfClient: 'game_table'
+      };
+      this.emit(socket.events.out.RECONNECT_TO_GAME, data);
+    });
 
     ////////////////////////////////////////////////////////////////////////////////
     /// \fn PLAYER_HAS_THROWN_CARD
@@ -47,7 +50,7 @@ angular.module('tapWizardClientApp')
     /// \brief Fired after a player threw a card. Adds the card to the local stack.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.PLAYER_HAS_THROWN_CARD, function(_data) {
-      $scope.data.cards.push(_data.card);
+      $scope.$storage.cards.push(_data.card);
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +59,7 @@ angular.module('tapWizardClientApp')
     /// \brief Fired after a new trump card has been chosen.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.NEW_TRUMP_CARD, function(_data) {
-      $scope.data.trumpCard = _data.card;
+      $scope.$storage.trumpCard = _data.card;
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -65,8 +68,8 @@ angular.module('tapWizardClientApp')
     /// \brief Fired if a player guessed his number of tricks
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.PLAYER_GUESSED_TRICKS, function(_data) {
-      $scope.data.scores[_data.roundNumber][_data.playerId] = {};
-      $scope.data.scores[_data.roundNumber][_data.playerId].guessedTricks = _data.guessedTricks;
+      $scope.$storage.scores[_data.roundNumber][_data.playerId] = {};
+      $scope.$storage.scores[_data.roundNumber][_data.playerId].guessedTricks = _data.guessedTricks;
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -76,10 +79,13 @@ angular.module('tapWizardClientApp')
     /// cards on the table after a few seconds.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.PLAYER_HAS_WON_TRICK, function(_data) {
-      $scope.data.trickwinner = _data.playerName;
+      $scope.$storage.trickwinner = _data.playerName;
 
+      // -----------------------------------------------------------------------------
+      // TODO: Develop some other way to remove the old cards...
+      // -----------------------------------------------------------------------------
       $timeout(function() {
-        $scope.data.cards = [];
+        $scope.$storage.cards = [];
       },5000);
     });
 
@@ -90,26 +96,25 @@ angular.module('tapWizardClientApp')
     /// the round score per player to the leaderboard.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.ROUND_IS_OVER, function(_data) {
-      $scope.data.trumpCard = {};
+      $scope.$storage.trumpCard = {};
 
       $log.info(_data.scores);
 
-      for (var indexOfPlayer = 0; indexOfPlayer < $scope.data.players.length; indexOfPlayer++) 
+      for (var indexOfPlayer = 0; indexOfPlayer < $scope.$storage.players.length; indexOfPlayer++) 
       {
-        var playerId     = $scope.data.players[indexOfPlayer].playerId;
-        var currentScore = $scope.data.players[indexOfPlayer].totalScore;
+        var playerId     = $scope.$storage.players[indexOfPlayer].playerId;
+        var currentScore = $scope.$storage.players[indexOfPlayer].totalScore;
         var scoreToAdd   = _data.scores[playerId];
 
-        $log.info('PlayerId: ' + playerId);
-        $log.info('currentScore: ' + currentScore);
-        $log.info('scoreToAdd: ' + scoreToAdd);
-
-        $scope.data.scores[$scope.data.currentRound][playerId].score = currentScore + scoreToAdd;
-        $scope.data.players[indexOfPlayer].score = currentScore + scoreToAdd;
+        // -----------------------------------------------------------------------------
+        // Save the score to the scores object and the individual player
+        // -----------------------------------------------------------------------------
+        $scope.$storage.scores[$scope.$storage.currentRound][playerId].score = currentScore + scoreToAdd;
+        $scope.$storage.players[indexOfPlayer].score = currentScore + scoreToAdd;
       }
 
-      $scope.data.currentRound++;
-      $scope.isStartNextRoundDisabled = false;
+      $scope.$storage.currentRound++;
+      $scope.$storage.isStartNextRoundDisabled = false;
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -118,8 +123,8 @@ angular.module('tapWizardClientApp')
     /// \brief Fired if the game has ended, or somthin realy bad happend.
     //////////////////////////////////////////////////////////////////////////////// 
     socket.on(socket.events.in.GAME_IS_OVER, function(_data) {
-      $scope.data.winnerName = _data.winnerName;
-      $scope.data.gameOver = true;
+      $scope.$storage.winnerName = _data.winnerName;
+      $scope.$storage.gameOver = true;
     });
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -128,9 +133,9 @@ angular.module('tapWizardClientApp')
     /// \brief Notifies the server to start the next game round.
     ////////////////////////////////////////////////////////////////////////////////    
     $scope.startRound = function() {
-      $scope.isStartNextRoundDisabled = true;
-      $scope.data.scores[$scope.data.currentRound] = {};
-      $scope.data.trickwinner = '';
+      $scope.$storage.isStartNextRoundDisabled = true;
+      $scope.$storage.scores[$scope.$storage.currentRound] = {};
+      $scope.$storage.trickwinner = '';
 
       var data = {
         gameRoomId: $scope.$storage.gameRoomId

@@ -1,10 +1,10 @@
 <div class="section-game-lobby table full-width full-height">
   <div class="table-cell center-center">
-      <h2>Game ID: {{ data.gameRoomId }}</h2>
+      <h2>Game ID: {{ $storage.gameRoomId }}</h2>
       <button ng-click="prepareGameForStart()" 
               class="btn btn-large btn-primary" 
-              ng-disabled="isStartDisabled" 
-              ng-model="isStartDisabled">{{ data.startGameText | uppercase }}
+              ng-disabled="$storage.isStartDisabled" 
+              ng-model="$storage.isStartDisabled">{{ label.startGameText | uppercase }}
           <div class="spinner" ng-hide="!isWaitingForGameStart">
             <div class="rect1"></div>
             <div class="rect2"></div>
@@ -17,10 +17,10 @@
   
   <!-- Implement something like a lobby-list directive -->
   <div class="table-cell center-center">
-      <p class="text-bold text-left">{{ data.waitingText }}</p>
+      <p class="text-bold text-left">{{ label.waitingText }}</p>
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="player in data.players">{{ player.playerName }}</li>
-        <li class="list-group-item free-list-slot" ng-repeat="i in [6 - data.players.length]|makeRange track by $index">Player {{ ($index + 1) + data.players.length }}</li>
+        <li class="list-group-item" ng-repeat="player in $storage.players">{{ player.playerName }}</li>
+        <li class="list-group-item free-list-slot" ng-repeat="i in [6 - $storage.players.length]|makeRange track by $index">Player {{ ($index + 1) + $storage.players.length }}</li>
       </ul>
   </div>
 </div>

@@ -5,14 +5,26 @@
 /// game.
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('JoingameCtrl', function ($scope, $location, socket, gamedata) {
-    $scope.data = {
+  .controller('JoingameCtrl', function ($scope, $location, $localStorage, socket) {
+    // -----------------------------------------------------------------------------
+    // Initialize persistant storage
+    // -----------------------------------------------------------------------------
+    $scope.$storage = $localStorage;
+
+    // -----------------------------------------------------------------------------
+    // Define which objects should be stored persistent
+    // -----------------------------------------------------------------------------
+    $scope.$storage = $localStorage.$default({ gameRoomId : '' });
+    $scope.$storage = $localStorage.$default({ playerName : '' });
+    $scope.$storage = $localStorage.$default({ isJoinGameButtonDisabled : false });
+
+    // -----------------------------------------------------------------------------
+    // Define button lables etc.. for view
+    // -----------------------------------------------------------------------------
+    $scope.label = {
       joinGameText: 'Join'
     };
 
-    $scope.isJoinGameButtonDisabled = false;
-    $scope.gameRoomId = '111';
-    $scope.playerName = 'tho';
 
     ////////////////////////////////////////////////////////////////////////////////
     /// \fn joinGame()
@@ -20,20 +32,20 @@ angular.module('tapWizardClientApp')
     /// \brief Notifies the server that the user wants to join the game
     ////////////////////////////////////////////////////////////////////////////////
     $scope.joinGame = function() {
-    	$scope.isJoinGameButtonDisabled = true;
-    	$scope.data.joinGameText = 'Joining..';
-
-    	gamedata.playerName = $scope.playerName;
-    	gamedata.gameRoomId = $scope.gameRoomId;
+    	$scope.$storage.isJoinGameButtonDisabled = true;
+    	$scope.label.joinGameText = 'Joining..';
 
     	var networkData = {
-    		gameRoomId: gamedata.gameRoomId,
-    		playerName: gamedata.playerName
+    		gameRoomId: $scope.$storage.gameRoomId,
+    		playerName: $scope.$storage.playerName
     	};
 
     	socket.emit(socket.events.out.JOIN_GAME, networkData, function(_data) {
-    		gamedata.playerId = _data.playerId;
-    		$location.path('playergame');
+            // -----------------------------------------------------------------------------
+            // Save game id after successfull join and switch to the play view
+            // -----------------------------------------------------------------------------
+    		$scope.$storage.playerId = _data.playerId;
+    		$location.path('playergame').replace();
     	});
     };
 
@@ -44,8 +56,8 @@ angular.module('tapWizardClientApp')
     /// gameroom not exist which the user wants to join.
     ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.ERROR, function() {
-      $scope.isJoinGameButtonDisabled = false;
-      $scope.data.joinGameText = 'Join';
+      $scope.$storage.isJoinGameButtonDisabled = false;
+      $scope.label.joinGameText = 'Join';
     });
 
     // -----------------------------------------------------------------------------

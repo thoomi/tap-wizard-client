@@ -1,8 +1,8 @@
-<div class="notification-panel table"><p class="table-cell center-center">{{ data.notification }}</p></div>
+<div class="notification-panel table"><p class="table-cell center-center">{{ $storage.currentStateLabel }}</p></div>
 
-<div class="playergame cards-panel" ng-disabled="isThrowCardsDisabled" ng-model="isThrowCardsDisabled">
+<div class="playergame cards-panel" ng-disabled="$storage.isThrowCardsDisabled" ng-model="$storage.isThrowCardsDisabled">
   <ul class="playing-card-stack" >
-    <li ng-repeat="card in data.cards track by $index">
+    <li ng-repeat="card in $storage.cards track by $index">
       <playing-card suit="card.suit" value="card.value" ng-click="throwCard(card)"></playing-card>
     </li>
   </ul>
@@ -10,6 +10,9 @@
 
 <div class="guess-panel">
   <div class="button-wrapper">
-    <button ng-repeat="i in [21]|makeRange track by $index" ng-click="guessNumberOfTricks($index)" ng-disabled="data.currentRound < $index || isGuessTricksDisabled" ng-model="isGuessTricksDisabled">{{ $index }}</button>
+    <button ng-repeat="i in [21]|makeRange track by $index" 
+    		ng-click="guessNumberOfTricks($index)" 
+    		ng-disabled="$storage.currentRound < $index || $storage.isGuessTricksDisabled" 
+    		ng-model="$storage.isGuessTricksDisabled">{{ $index }}</button>
   </div>
 </div>

@@ -1,8 +1,8 @@
 <div class="info-panel table full-width">
   <div class="table-cell vertical-center text-left">
-  	Game ID: <span class="highlight">{{ data.gameRoomId }}</span> 
-  	Round: <span class="highlight">{{ data.currentRound }} / {{ data.maxRounds }}</span>
-  	Trickwinner: <span class="highlight">{{ data.trickwinner }}</span></div>
+  	Game ID: <span class="highlight">{{ $storage.gameRoomId }}</span> 
+  	Round: <span class="highlight">{{ $storage.currentRound }} / {{ $storage.maxRounds }}</span>
+  	Trickwinner: <span class="highlight">{{ $storage.trickwinner }}</span></div>
 </div>
 
 <!-- Implement a card panel directive -->
@@ -10,17 +10,17 @@
   <div class="cards-panel-gametable table-cell center-center">
 
     <div class="trumpcard-container">
-      <playing-card suit="data.trumpCard.suit" value="data.trumpCard.value"></playing-card>
+      <playing-card suit="$storage.trumpCard.suit" value="$storage.trumpCard.value"></playing-card>
     </div>
 
     <ul class="playing-card-stack">
-      <li ng-repeat="card in data.cards track by $index">
+      <li ng-repeat="card in $storage.cards track by $index">
         <playing-card suit="card.suit" value="card.value"></playing-card>
       </li>
     </ul>
 
     <div class="start-btn-wrapper">
-      <button ng-click="startRound()" ng-disabled="isStartNextRoundDisabled" ng-model="isStartNextRoundDisabled" class="btn btn-primary">Start Round {{ data.currentRound }}</button>
+      <button ng-click="startRound()" ng-disabled="$storage.isStartNextRoundDisabled" ng-model="$storage.isStartNextRoundDisabled" class="btn btn-primary">Start Round {{ $storage.currentRound }}</button>
     </div>
   </div>
 	
@@ -31,24 +31,24 @@
       <thead>
         <tr>
           <td class="round in-use">#</td>
-          <td ng-repeat="player in data.players track by $index" class="in-use">{{ player.playerName }}</td>
-          <td ng-repeat="i in [6 - data.players.length]|makeRange track by $index" class="unused">P{{ ($index + 1) + data.players.length }}</td>
+          <td ng-repeat="player in $storage.players track by $index" class="in-use">{{ player.playerName }}</td>
+          <td ng-repeat="i in [6 - $storage.players.length]|makeRange track by $index" class="unused">P{{ ($index + 1) + $storage.players.length }}</td>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="i in [data.currentRound]|makeRange track by $index">
+        <tr ng-repeat="i in [$storage.currentRound]|makeRange track by $index">
           <td class="round">{{ $index + 1 }}</td>
-          <td ng-repeat="player in data.players track by $index" class="in-use score-set">
-            <div class="data.scores table full-width full-height">
-              <div class="guessedNumber table-cell center-center">{{ data.scores[$parent.$index + 1][player.playerId].guessedTricks }}</div>
-              <div class="score table-cell center-center">{{ data.scores[$parent.$index + 1][player.playerId].score }}</div>
+          <td ng-repeat="player in $storage.players track by $index" class="in-use score-set">
+            <div class="scores table full-width full-height">
+              <div class="guessedNumber table-cell center-center">{{ $storage.scores[$parent.$index + 1][player.playerId].guessedTricks }}</div>
+              <div class="score table-cell center-center">{{ $storage.scores[$parent.$index + 1][player.playerId].score }}</div>
             </div>
           </td>
-          <td ng-repeat="i in [6 - data.players.length]|makeRange track by $index" class="unused"></td>
+          <td ng-repeat="i in [6 - $storage.players.length]|makeRange track by $index" class="unused"></td>
         </tr>
-        <tr ng-repeat="i in [20 - data.currentRound]|makeRange track by $index">
-          <td class="round">{{ $index + 1 + data.currentRound }}</td>
-          <td ng-repeat="j in [6]|makeRange track by $index" class="unused" ng-hide="($parent.$index + 1 + data.currentRound) > (60 / ($index + 1))"></td>
+        <tr ng-repeat="i in [20 - $storage.currentRound]|makeRange track by $index">
+          <td class="round">{{ $index + 1 + $storage.currentRound }}</td>
+          <td ng-repeat="j in [6]|makeRange track by $index" class="unused" ng-hide="($parent.$index + 1 + $storage.currentRound) > (60 / ($index + 1))"></td>
         </tr>
       </tbody>
     </table>
