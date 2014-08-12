@@ -1,0 +1,98 @@
+////////////////////////////////////////////////////////////////////////////////
+/// Basic dialog styles
+////////////////////////////////////////////////////////////////////////////////
+.ngdialog {
+  position: fixed;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 10000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.ngdialog-overlay {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadein 0.5s;
+  animation: ngdialog-fadein 0.5s;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-overlay {
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadeout 0.5s;
+  animation: ngdialog-fadeout 0.5s;
+}
+
+.ngdialog-content {
+  background: white;
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadein 0.5s;
+  animation: ngdialog-fadein 0.5s;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-content {
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadeout 0.5s;
+  animation: ngdialog-fadeout 0.5s;
+}
+
+.ngdialog-close:before {
+  font-family: 'Helvetica', Arial, sans-serif;
+  content: '\00D7';
+  cursor: pointer;
+}
+
+body.ngdialog-open {
+  overflow: hidden;
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// Default dialog theme
+////////////////////////////////////////////////////////////////////////////////
+.ngdialog.ngdialog-theme-default.ngdialog-closing .ngdialog-content {
+  -webkit-animation: ngdialog-flyout .5s;
+  animation: ngdialog-flyout .5s;
+}
+
+.ngdialog.ngdialog-theme-default {
+	.ngdialog-content {
+	  -webkit-animation: ngdialog-flyin .5s;
+	  animation: ngdialog-flyin .5s;
+	  background: $dialog-bg;
+	  border-bottom-left-radius:  5px;
+	  border-bottom-right-radius: 5px;
+	  color: $dialog-color;
+	  margin: 0 auto;
+	  position: relative;
+	  min-width: 320px;
+	  max-width: 480px;
+	  box-shadow: 0px 0px 20px -3px #000;
+	}
+
+	.dialog-header {
+		margin: 0;
+		font-size: $font-size-h2;
+		padding: 8px 0;
+		width: 100%;
+		background-color: darken($dialog-bg, 4%);
+		color: $text-color-inverse;
+	}
+
+	.dialog-message {
+		font-size: $font-size-base + 2;
+	}
+	.btn-dialog {
+		padding: 15px 60px;
+		margin-bottom: 20px;
+		margin-top: 30px;
+	}
+}

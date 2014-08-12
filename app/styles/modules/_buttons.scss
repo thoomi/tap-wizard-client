@@ -12,6 +12,8 @@
   font-size: $btn-default-font-size;
   white-space: nowrap;
   color: $text-color-inverse;
+  border-radius: 0px 0px 5px 5px;
+
 
   &:disabled {
     cursor: default;
@@ -21,7 +23,6 @@
 
 .btn-large {
   padding: 25px 60px;
-  border-radius: 0px 0px 5px 5px;
   text-transform: uppercase;
 
 
@@ -92,5 +93,27 @@
   }
   &:disabled {
     box-shadow: 0px 0px darken($btn-join-game-bg, 10%);
+  }
+}
+
+///////////////////////////////////////////////////////////
+/// Dialog button
+////////////////////////////////////////////////////////////
+.btn-dialog {
+  box-shadow: 0px 6px darken($dialog-bg, 20%);
+  background-color: darken($dialog-bg, 10%);
+  text-transform: uppercase;
+
+  &:hover {
+    box-shadow: 0 4px darken($dialog-bg, 20%);
+    top: 2px;
+
+    &:disabled {
+      box-shadow: 0px 0px darken($dialog-bg, 20%);
+      top: 0;
+    }
+  }
+  &:disabled {
+    box-shadow: 0px 0px darken($dialog-bg, 20%);
   }
 }

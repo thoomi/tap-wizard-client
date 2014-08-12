@@ -11,7 +11,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngStorage'
+    'ngStorage',
+    'ngDialog'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -43,3 +44,19 @@ angular
         redirectTo: '/'
       });
   });
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// Initialize the dialog module with sensible defaults
+////////////////////////////////////////////////////////////////////////////////
+angular.module('tapWizardClientApp')
+  .config(['ngDialogProvider', function(ngDialogProvider) {
+    ngDialogProvider.setDefaults({
+      className: 'ngdialog-theme-default',
+      plain: false,
+      showClose: false,
+      closeByDocument: true,
+      closeByEscape: true,
+      appendTo: false
+    });
+  }]);

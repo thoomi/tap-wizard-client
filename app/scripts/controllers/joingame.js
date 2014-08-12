@@ -5,7 +5,7 @@
 /// game.
 ////////////////////////////////////////////////////////////////////////////////
 angular.module('tapWizardClientApp')
-  .controller('JoingameCtrl', function ($scope, $location, $localStorage, socket) {
+  .controller('JoingameCtrl', function ($scope, $location, $localStorage, ngDialog, socket) {
     // -----------------------------------------------------------------------------
     // Initialize persistant storage
     // -----------------------------------------------------------------------------
@@ -56,6 +56,11 @@ angular.module('tapWizardClientApp')
     /// gameroom not exist which the user wants to join.
     ////////////////////////////////////////////////////////////////////////////////
     socket.on(socket.events.in.ERROR, function() {
+      ngDialog.open({
+        template: 'views/dialogs/default.html',
+        scope: $scope
+      });
+
       $scope.$storage.isJoinGameButtonDisabled = false;
       $scope.label.joinGameText = 'Join';
     });
