@@ -32,6 +32,23 @@ angular.module('tapWizardClientApp')
     /// \brief Notifies the server that the user wants to join the game
     ////////////////////////////////////////////////////////////////////////////////
     $scope.joinGame = function() {
+        // -----------------------------------------------------------------------------
+        // Check if socket is connected
+        // -----------------------------------------------------------------------------
+        if (!socket.socket.connected)
+        {
+            $scope.dialogModel = {};
+            $scope.dialogModel.type = 'Error';
+            $scope.dialogModel.message = 'Sorry, could not connect to game server.';
+
+            ngDialog.open({
+                template: 'views/dialogs/default.html',
+                scope: $scope
+            });
+
+            return;
+        }
+
     	$scope.$storage.isJoinGameButtonDisabled = true;
     	$scope.label.joinGameText = 'Joining..';
 
@@ -55,14 +72,18 @@ angular.module('tapWizardClientApp')
     /// \brief Handles error events from the server. Here in most cases might the
     /// gameroom not exist which the user wants to join.
     ////////////////////////////////////////////////////////////////////////////////
-    socket.on(socket.events.in.ERROR, function() {
-      ngDialog.open({
-        template: 'views/dialogs/default.html',
-        scope: $scope
-      });
+    socket.on(socket.events.in.ERROR, function(_data) {
+        $scope.dialogModel = {};
+        $scope.dialogModel.type = _data.type;
+        $scope.dialogModel.message = _data.message;
 
-      $scope.$storage.isJoinGameButtonDisabled = false;
-      $scope.label.joinGameText = 'Join';
+        ngDialog.open({
+            template: 'views/dialogs/default.html',
+            scope: $scope
+        });
+
+        $scope.$storage.isJoinGameButtonDisabled = false;
+        $scope.label.joinGameText = 'Join';
     });
 
     // -----------------------------------------------------------------------------

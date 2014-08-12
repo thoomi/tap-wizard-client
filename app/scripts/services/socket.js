@@ -18,6 +18,7 @@ angular.module('tapWizardClientApp')
     });
 
     return {
+            socket: socket,
             on: function (eventName, callback) {
                 socket.on(eventName, function () {
                     var args = arguments;

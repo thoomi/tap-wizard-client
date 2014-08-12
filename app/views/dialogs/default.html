@@ -1,5 +1,5 @@
 <div class="ngdialog-inner text-center">
-	<h3 class="dialog-header">Information</h3>
-	<p class="dialog-message">This is just a simple information</p>
-	<button class="btn btn-default btn-dialog">OK</button>
+	<h3 class="dialog-header">{{ dialogModel.type }}</h3>
+	<p class="dialog-message">{{ dialogModel.message }}</p>
+	<button class="btn btn-default btn-dialog" ng-click="closeThisDialog()">{{ dialogModel.buttonLabel || "OK" }}</button>
 </div>
